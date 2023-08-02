@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  sboot-app:
+    image: tuncode/mmv3-sb-rabbitmq:0.0.1-SNAPSHOT
+    container_name: "sboot-rabbitmq-api"
+    mem_limit: 700m
+    restart: on-failure
+    ports:
+      - "8081:8081"
+    depends_on:
+      - rabbitmq
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: psysoftwaresolutions
+      SPRING_JPA_SHOW_SQL: true
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      SPRING_JPA_HIBERNATE_DDL-AUTO: update
+    networks:
+      sboot-rabbitmq-network:
+
+  rabbitmq:
+    image: rabbitmq:3.10.5-management
+    container_name: "sboot-rabbitmq-amqp"
+    restart: on-failure
+    ports:
+      #AMQP PORT
+      - "5672:5672"
+      # HTTP MANAGEMENT PORT
+      - "15672:15672"
+    networks:
+      sboot-rabbitmq-network:
+
+networks:
+  sboot-rabbitmq-network:
