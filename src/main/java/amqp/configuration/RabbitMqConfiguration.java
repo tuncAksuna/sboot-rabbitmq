@@ -40,11 +40,11 @@ public class RabbitMqConfiguration {
     }
 
     /**
-     * Exchange for RabbitMQ exchange
+     * Exchange for RabbitMQ exchange(direct exchange)
      */
     @Bean
-    public TopicExchange exchange() {
-        return new TopicExchange(exchange);
+    public DirectExchange exchange() {
+        return new DirectExchange(exchange);
     }
 
     /**
